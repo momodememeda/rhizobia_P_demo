@@ -1,0 +1,60 @@
+<?php
+/**
+ * Created by PhpStorm.
+ * User: momo
+ * Date: 2018/4/16
+ * Time: 下午2:27
+ */
+
+
+$session = md5('123');
+setcookie('session', $session);
+$salt='';
+setcookie('csrf_token', md5(md5($session.'|'.$salt).'|'.$salt))
+
+
+?>
+<!DOCTYPE HTML>
+<html>
+<head>
+    <script type="text/javascript" src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.8.0.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            //按钮单击时执行
+            $("#testAjax").click(function () {
+                //Ajax调用处理
+                $.ajax({
+                    type: "POST",
+                    url: "/csrf/verify",
+                    data: {"csrf_token": getCookie(), "name": $('#name').val()},
+                    dataType: "json",
+                    success: function (data) {
+                        if (data.ec == 200) {
+                            $('#result').html(data.info);
+                        }
+
+                    }
+                });
+
+            });
+        });
+
+        function getCookie() {
+            var value = "; " + document.cookie;
+            var parts = value.split("; csrf_token=");
+            if (parts.length == 2)
+                return parts.pop().split(";").shift();
+        }
+    </script>
+</head>
+<body>
+
+<input id="name" type="text">
+<button id="testAjax" type="button">提交</button>
+<br/>
+<label id="result">
+
+
+
+</body>
+</html>
