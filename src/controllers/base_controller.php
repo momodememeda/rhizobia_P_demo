@@ -8,7 +8,7 @@
 
 namespace Controllers;
 
-use Security\SecurityUtiliy;
+use Security\SecurityUtil;
 use Slim\Views\PhpRenderer;
 class base_controller extends PhpRenderer
 {
@@ -25,8 +25,6 @@ class base_controller extends PhpRenderer
 
     private function init()
     {
-        $this->securityutil = SecurityUtiliy.getInstance();
-
+        $this->securityutil = SecurityUtil::getInstance();
     }
-
 }
